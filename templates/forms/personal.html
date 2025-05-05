@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Personal Info{% endblock %}
+{% block content %}
+<h2>Personal Information Form</h2>
+<form method="post">
+    Name: <input type="text" name="name"><br>
+    Age: <input type="number" name="age"><br>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
