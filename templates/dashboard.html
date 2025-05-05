@@ -1,44 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard{% endblock %}
-
 {% block content %}
-<div class="container mt-5">
-    <div class="text-center mb-4">
-        <h2 class="fw-bold text-primary">Welcome, {{ name }}!</h2>
-        <p class="text-muted">This is the admin dashboard.</p>
-    </div>
+<div class="container text-center mt-5">
+  <h2 class="fw-bold text-primary">Welcome, {{ name }}!</h2>
+  <p class="text-muted">This is the admin dashboard.</p>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
-        <div class="col">
-            <a href="{{ url_for('google_login') }}" class="btn btn-outline-danger w-100 py-3 shadow-sm">
-                <i class="bi bi-google"></i> Login with Google
-            </a>
-        </div>
-        <div class="col">
-            <a href="{{ url_for('google_login') }}" class="btn btn-outline-pink w-100 py-3 shadow-sm">
-                <i class="bi bi-instagram"></i> Login with Instagram
-            </a>
-        </div>
-        <div class="col">
-            <a href="{{ url_for('google_login') }}" class="btn btn-outline-primary w-100 py-3 shadow-sm">
-                <i class="bi bi-facebook"></i> Login with Facebook
-            </a>
-        </div>
-        <div class="col">
-            <a href="{{ url_for('google_login') }}" class="btn btn-outline-warning w-100 py-3 shadow-sm">
-                <i class="bi bi-snapchat"></i> Login with Snapchat
-            </a>
-        </div>
-        <div class="col">
-            <a href="{{ url_for('google_login') }}" class="btn btn-outline-dark w-100 py-3 shadow-sm">
-                <i class="bi bi-github"></i> Login with GitHub
-            </a>
-        </div>
-        <div class="col">
-            <a href="{{ url_for('google_login') }}" class="btn btn-outline-success w-100 py-3 shadow-sm">
-                <i class="bi bi-spotify"></i> Login with Spotify
-            </a>
-        </div>
-    </div>
+  <div class="d-grid gap-3 mt-4 col-6 mx-auto">
+    <a href="{{ url_for('login_options') }}" class="btn btn-primary">🔐 Login</a>
+    <a href="{{ url_for('camera') }}" class="btn btn-secondary">📷 Camera</a>
+    <a href="{{ url_for('location') }}" class="btn btn-info">📍 Location</a>
+    <a href="{{ url_for('other_options') }}" class="btn btn-dark">🧩 Other</a>
+  </div>
 </div>
 {% endblock %}

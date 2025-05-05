@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Login Options{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+  <h3 class="text-center mb-4">Choose a Login Method</h3>
+  <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
+
+    <!-- Common Platforms -->
+    <div class="col">
+      <a href="{{ url_for('google_login') }}" class="btn btn-outline-danger w-100 py-3 shadow-sm">
+        <i class="bi bi-google"></i> Login with Google
+      </a>
+    </div>
+    <div class="col">
+      <a href="{{ url_for('facebook_login') }}" class="btn btn-outline-primary w-100 py-3 shadow-sm">
+        <i class="bi bi-facebook"></i> Login with Facebook
+      </a>
+    </div>
+    <div class="col">
+      <a href="{{ url_for('google_login') }}" class="btn btn-outline-pink w-100 py-3 shadow-sm">
+        <i class="bi bi-instagram"></i> Login with Instagram
+      </a>
+    </div>
+
+    <!-- Remaining Platforms -->
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-warning w-100 py-3 shadow-sm"><i class="bi bi-snapchat"></i> Login with Snapchat</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-dark w-100 py-3 shadow-sm"><i class="bi bi-github"></i> Login with GitHub</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-success w-100 py-3 shadow-sm"><i class="bi bi-spotify"></i> Login with Spotify</a></div>
+
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-danger w-100 py-3 shadow-sm"><i class="bi bi-adobe"></i> Login with Adobe</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-info w-100 py-3 shadow-sm"><i class="bi bi-discord"></i> Login with Discord</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-primary w-100 py-3 shadow-sm"><i class="bi bi-dropbox"></i> Login with Dropbox</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-warning w-100 py-3 shadow-sm"><i class="bi bi-bag-check"></i> Login with eBay</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-secondary w-100 py-3 shadow-sm"><i class="bi bi-git"></i> Login with GitLab</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-primary w-100 py-3 shadow-sm"><i class="bi bi-linkedin"></i> Login with LinkedIn</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-dark w-100 py-3 shadow-sm"><i class="bi bi-cloud-arrow-down"></i> Login with MediaFire</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-primary w-100 py-3 shadow-sm"><i class="bi bi-windows"></i> Login with Microsoft</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-danger w-100 py-3 shadow-sm"><i class="bi bi-play-btn-fill"></i> Login with Netflix</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-info w-100 py-3 shadow-sm"><i class="bi bi-paypal"></i> Login with PayPal</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-danger w-100 py-3 shadow-sm"><i class="bi bi-pinterest"></i> Login with Pinterest</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-secondary w-100 py-3 shadow-sm"><i class="bi bi-controller"></i> Login with PlayStation</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-danger w-100 py-3 shadow-sm"><i class="bi bi-reddit"></i> Login with Reddit</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-primary w-100 py-3 shadow-sm"><i class="bi bi-twitter-x"></i> Login with Twitter</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-dark w-100 py-3 shadow-sm"><i class="bi bi-steam"></i> Login with Steam</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-success w-100 py-3 shadow-sm"><i class="bi bi-xbox"></i> Login with Xbox</a></div>
+    <div class="col"><a href="{{ url_for('google_login') }}" class="btn btn-outline-info w-100 py-3 shadow-sm"><i class="bi bi-envelope"></i> Login with Yahoo</a></div>
+
+  </div>
+</div>
+{% endblock %}

