@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-  <h2 class="text-center mb-4">Admin Login</h2>
+  <h2 class="text-center mb-4">Register</h2>
 
   <div class="row justify-content-center">
     <div class="col-md-6">
       <form method="post" class="p-4 shadow rounded bg-light">
         <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+          <label for="name" class="form-label">Username</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Enter username" required>
         </div>
 
         <div class="mb-3">
@@ -19,7 +19,7 @@
         </div>
 
         <div class="d-grid">
-          <button type="submit" class="btn btn-success">Login</button>
+          <button type="submit" class="btn btn-primary">Register</button>
         </div>
       </form>
     </div>

