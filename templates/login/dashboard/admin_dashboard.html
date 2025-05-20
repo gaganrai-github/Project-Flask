@@ -1,15 +1,68 @@
-{% extends 'base.html' %}
-{% block title %}Dashboard{% endblock %}
-{% block content %}
-<div class="container text-center mt-5">
-  <h2 class="fw-bold text-primary">Welcome, {{ name }}!</h2>
-  <p class="text-muted">This is the admin dashboard.</p>
+{% extends "base.html" %}
 
-  <div class="d-grid gap-3 mt-4 col-6 mx-auto">
-    <a href="{{ url_for('login_options') }}" class="btn btn-primary">🔐 Login</a>
-    <a href="{{ url_for('camera') }}" class="btn btn-secondary">📷 Camera</a>
-    <a href="{{ url_for('location') }}" class="btn btn-info">📍 Location</a>
-    <a href="{{ url_for('other_options') }}" class="btn btn-dark">🧩 Other</a>
-  </div>
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen p-4 mt-8 mb-8"> {# Overall centering and padding #}
+    <div class="w-full max-w-2xl bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-3xl p-8 transform transition-all duration-300 border border-gray-700"> {# Main card for the dashboard #}
+        
+        <h1 class="text-4xl font-extrabold text-white text-center mb-4 drop-shadow-lg">
+            Welcome, Admin <span class="text-blue-400">{{ name }}</span>!
+        </h1>
+        <p class="text-center text-gray-300 mb-8 text-lg opacity-90">
+            This is your secure administrative dashboard. Manage your application with ease.
+        </p>
+
+        <div class="bg-gray-700/60 rounded-xl p-6 mb-8 shadow-inner border border-gray-600">
+            <h3 class="text-2xl font-bold text-white mb-5 flex items-center gap-3">
+                <i class="fas fa-cogs text-blue-400"></i> Admin Actions
+            </h3>
+            <ul class="space-y-4"> {# Increased spacing between list items #}
+                <li class="flex items-center">
+                    <a href="{{ url_for('manage_users') }}" 
+                       class="flex items-center justify-between w-full p-4 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold text-lg rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-blue-500"
+                       aria-label="Manage Users and Co-Admins">
+                        <span><i class="fas fa-users mr-3"></i> Manage Users (Create/Edit Co-Admins)</span>
+                        <i class="fas fa-arrow-right text-xl"></i>
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <a href="{{ url_for('manage_services') }}" 
+                       class="flex items-center justify-between w-full p-4 bg-gradient-to-r from-purple-700 to-indigo-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-lg rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-purple-500"
+                       aria-label="Manage Services">
+                        <span><i class="fas fa-tools mr-3"></i> Manage Services</span>
+                        <i class="fas fa-arrow-right text-xl"></i>
+                    </a>
+                </li>
+                <li class="flex items-center">
+                    <a href="{{ url_for('view_collected_data') }}" 
+                       class="flex items-center justify-between w-full p-4 bg-gradient-to-r from-green-600 to-teal-500 hover:from-teal-500 hover:to-green-600 text-white font-semibold text-lg rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-green-500"
+                       aria-label="View Collected Data">
+                        <span><i class="fas fa-database mr-3"></i> View Collected Data</span>
+                        <i class="fas fa-arrow-right text-xl"></i>
+                    </a>
+                </li>
+                {# Add other admin links here if needed with consistent styling #}
+                {# Example:
+                <li class="flex items-center">
+                    <a href="{{ url_for('admin_settings') }}" 
+                       class="flex items-center justify-between w-full p-4 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-amber-500 hover:to-orange-600 text-white font-semibold text-lg rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-orange-500"
+                       aria-label="Admin Settings">
+                        <span><i class="fas fa-sliders-h mr-3"></i> Application Settings</span>
+                        <i class="fas fa-arrow-right text-xl"></i>
+                    </a>
+                </li>
+                #}
+            </ul>
+        </div>
+
+        <div class="text-center mt-8">
+            <a href="{{ url_for('logout') }}" 
+               class="inline-flex items-center px-8 py-3 bg-gradient-to-r from-red-600 to-pink-500 hover:from-pink-500 hover:to-red-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-500"
+               aria-label="Logout from Admin Dashboard">
+                <i class="fas fa-sign-out-alt mr-2 text-xl"></i> Logout
+            </a>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,14 +1,25 @@
 {% extends 'base.html' %}
+
 {% block title %}Choose Login{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <h2 class="text-center mb-4">Choose Login Type</h2>
-  <div class="row justify-content-center">
-    <div class="col-md-4 text-center">
-      <a href="{{ url_for('user_login') }}" class="btn btn-primary btn-lg w-100 mb-3">User Login</a>
-      <a href="{{ url_for('admin_login') }}" class="btn btn-danger btn-lg w-100">Admin Login</a>
+<div class="flex items-center justify-center p-4 mt-16 mb-16"> {# Increased outer padding to p-4, and margins to mt-16/mb-16 #}
+    <div class="w-full max-w-sm bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-3xl p-6 text-center transform transition-all duration-300 hover:scale-[1.01] hover:shadow-4xl border border-gray-700 hover:border-blue-500/50"> {# Increased max-width to sm, padding to p-6, and shadows #}
+        <h1 class="text-3xl font-extrabold text-white mb-6 drop-shadow-lg"> {# Increased heading size to 3xl, mb to 6 #}
+            Choose Login Type
+        </h1>
+        <p class="text-gray-300 mb-6 text-base opacity-90">Please select your account type to proceed.</p> {# Increased text size to base, mb to 6 #}
+
+        <div class="space-y-5"> {# Increased space between buttons to space-y-5 #}
+            <a href="{{ url_for('user_login') }}" class="block w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-cyan-500 hover:to-blue-600 text-white font-bold text-xl rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500"
+               aria-label="Proceed to User Login">
+                <i class="fas fa-user-circle text-2xl"></i> User Login
+            </a>
+            <a href="{{ url_for('admin_login') }}" class="block w-full py-3 px-6 bg-gradient-to-r from-purple-700 to-red-600 hover:from-red-600 hover:to-purple-700 text-white font-bold text-xl rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-500"
+               aria-label="Proceed to Admin Login">
+                <i class="fas fa-shield-alt text-2xl"></i> Admin Login
+            </a>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}

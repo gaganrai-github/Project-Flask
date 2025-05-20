@@ -1,30 +1,61 @@
 {% extends 'base.html' %}
+
 {% block title %}Admin Login{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Admin Login</h2>
+<div class="flex items-center justify-center p-4 mt-12 mb-12"> {# Reduced mt/mb from 16 to 12 #}
+    <div class="w-full max-w-sm bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl p-6 transform transition-all duration-300 hover:scale-[1.005] hover:shadow-3xl border border-gray-700 hover:border-red-500/50"> {# Max-width back to sm, padding to p-6, shadows to 2xl/3xl #}
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-white text-center mb-5 drop-shadow-lg"> {# Heading size and mb reduced #}
+            Admin Login
+        </h1>
+        <p class="text-center text-gray-300 mb-5 text-sm opacity-90">Secure access for administrators.</p> {# Text size and mb reduced #}
 
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <form method="post" class="p-4 shadow rounded bg-light">
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
-                </div>
+        <form method="post" class="space-y-4"> {# Vertical spacing reduced #}
+            {# CSRF Token for Security (Example with Flask-WTF) #}
+            {# {{ form.csrf_token }} #}
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password"
-                        placeholder="Enter password" required>
-                </div>
+            <div>
+                <label for="email" class="block text-gray-200 text-sm font-semibold mb-1.5 after:content-['*'] after:ml-0.5 after:text-red-400"> {# Label text size and mb reduced #}
+                    <i class="fas fa-envelope mr-2 text-red-400"></i> Email Address
+                </label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="w-full px-4 py-2.5 bg-gray-700/70 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 transition-all duration-300 text-base"
+                    placeholder="admin@example.com"
+                    required aria-label="Enter your admin email address"
+                >
+            </div>
 
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-danger">Login</button>
-                </div>
-            </form>
+            <div class="mb-1.5"> {# Adjusted margin-bottom to match field spacing #}
+                <label for="password" class="block text-gray-200 text-sm font-semibold mb-1.5 after:content-['*'] after:ml-0.5 after:text-red-400">
+                    <i class="fas fa-lock mr-2 text-red-400"></i> Password
+                </label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="w-full px-4 py-2.5 bg-gray-700/70 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 transition-all duration-300 text-base"
+                    placeholder="Enter admin password"
+                    required aria-label="Enter your admin password"
+                >
+            </div>
 
-        </div>
+            <button
+                type="submit"
+                class="w-full py-2.5 px-6 bg-gradient-to-r from-red-700 to-purple-600 hover:from-purple-600 hover:to-red-700 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-red-500" {# Button padding, font, and icon size reduced #}
+                aria-label="Login as administrator"
+            >
+                <i class="fas fa-sign-in-alt text-xl"></i> Admin Login
+            </button>
+        </form>
+
+        <p class="text-center text-gray-400 mt-6 text-sm"> {# Text size and mt reduced #}
+            <a href="{{ url_for('login') }}" class="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-300 ml-1">
+                Back to Login Type Selection
+            </a>
+        </p>
     </div>
 </div>
 {% endblock %}

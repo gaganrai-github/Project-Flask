@@ -3,86 +3,103 @@
 
 {% block content %}
 <style>
-  .service-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px;
-    transition: transform 0.3s ease;
-  }
+    /* Custom styles */
+    .service-card-wrapper {
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    }
+    .service-card-wrapper:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 8px 15px rgba(0,0,0,0.3);
+    }
 
-  .service-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  }
+    .service-image {
+        height: 220px;
+        object-fit: cover;
+        filter: brightness(0.7);
+        transition: filter 0.3s ease;
+    }
 
-  .service-image {
-    height: 220px;
-    object-fit: cover;
-    filter: brightness(0.8);
-  }
+    .service-card-wrapper:hover .service-image {
+        filter: brightness(0.9);
+    }
 
-  .card-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-    color: #fff;
-  }
+    .card-overlay-gradient {
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    }
 
-  .service-price {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #ffc107;
-  }
+    .text-gradient-heading {
+        background: linear-gradient(to right, #00FF00, #00BFFF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+    }
 
-  .view-btn {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    transition: 0.3s;
-  }
+    .clamp-3-lines {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 
-  .view-btn:hover {
-    background-color: #0d6efd;
-    color: white;
-  }
+    /* Button 3D effect */
+    .button-3d-effect {
+        position: relative;
+        transition: all 0.2s ease;
+    }
+    .button-3d-effect:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 191, 255, 0.4);
+    }
+    .button-3d-effect:active {
+        transform: translateY(0);
+    }
+
+    @keyframes fade-in-up {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fade-in-up 0.6s ease-out forwards;
+        opacity: 0;
+    }
 </style>
 
-<div class="container mt-5">
-  <h2 class="text-center mb-4 text-gradient fw-bold">🚀 Premium Services</h2>
-  <p class="text-center text-muted mb-5">High-quality digital solutions to boost your brand, business, and creativity.</p>
+<div class="container mx-auto px-4 py-8">
+    <h2 class="text-center mb-4 text-5xl font-bold text-gradient-heading drop-shadow-md animate-fade-in-up">
+        🚀 Premium Services
+    </h2>
+    <p class="text-center text-gray-400 text-lg mb-12 animate-fade-in-up" style="animation-delay: 0.2s;">
+        High-quality digital solutions to boost your brand, business, and creativity.
+    </p>
 
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    {% set services = [
-      {'id': 1, 'title': 'Web Development', 'image': url_for('static', filename='images/samurai-sci-fi-city-moon-digital-art-4k-wallpaper-uhdpaper.com-239@0@k.jpg'), 'price': '$499', 'description': 'Full-stack web development for your business, including front-end and back-end solutions.'},
-      {'id': 2, 'title': 'Mobile App Design', 'image': url_for('static', filename='images/road-sunset-car-city-buildings-scenery-digital-art-4k-wallpaper-uhdpaper.com-334@1@m.jpg'), 'price': '$399', 'description': 'Creative and user-friendly mobile app designs for both Android and iOS.'},
-      {'id': 3, 'title': 'AI Chatbot Integration', 'image': url_for('static', filename='images/kung-fu-panda-4-po-zhen-4k-wallpaper-uhdpaper.com-452@1@n.jpg'), 'price': '$599', 'description': 'Integrate AI chatbots for customer support, increasing engagement and efficiency.'},
-      {'id': 4, 'title': 'SEO Optimization', 'image': url_for('static', filename='images/japanese-castle-cherry-blossom-mountain-digital-art-scenery-4k-wallpaper-uhdpaper.com-702@1@k.jpg'), 'price': '$299', 'description': 'Improve your website ranking with comprehensive SEO services.'},
-      {'id': 5, 'title': 'Digital Marketing', 'image': url_for('static', filename='images/fortnite-she-hulk-thor-storm-iron-man-uhdpaper.com-4K-7.2567.jpg'), 'price': '$449', 'description': 'Boost your brand visibility through tailored digital marketing campaigns.'},
-      {'id': 6, 'title': 'Cloud Setup (AWS/GCP)', 'image': url_for('static', filename='images/deadpool-marvel-4k-wallpaper-uhdpaper.com-32@5@a.jpg'), 'price': '$699', 'description': 'Cloud infrastructure setup and management for scalable solutions.'},
-      {'id': 7, 'title': 'Data Analytics Dashboard', 'image': url_for('static', filename='images/samurai-sci-fi-city-moon-digital-art-4k-wallpaper-uhdpaper.com-239@0@k.jpg'), 'price': '$549', 'description': 'Powerful dashboards to visualize your data and make data-driven decisions.'},
-      {'id': 8, 'title': 'E-commerce Website', 'image': url_for('static', filename='images/road-sunset-car-city-buildings-scenery-digital-art-4k-wallpaper-uhdpaper.com-334@1@m.jpg'), 'price': '$799', 'description': 'End-to-end solutions for building online stores with secure payment systems.'},
-      {'id': 9, 'title': 'Logo & Brand Design', 'image': url_for('static', filename='images/japanese-castle-cherry-blossom-mountain-digital-art-scenery-4k-wallpaper-uhdpaper.com-702@1@k.jpg'), 'price': '$199', 'description': 'Unique and creative logo design and brand identity solutions.'},
-      {'id': 10, 'title': 'Cybersecurity Audit', 'image': url_for('static', filename='images/japanese-castle-cherry-blossom-mountain-digital-art-scenery-4k-wallpaper-uhdpaper.com-702@1@k.jpg'), 'price': '$349', 'description': 'Complete security audit to ensure your business is protected from cyber threats.'},
-      {'id': 11, 'title': 'Custom API Development', 'image': url_for('static', filename='images/deadpool-marvel-4k-wallpaper-uhdpaper.com-32@5@a.jpg'), 'price': '$499', 'description': 'Custom API development to integrate various platforms and services.'},
-      {'id': 12, 'title': 'Technical Support', 'image': url_for('static', filename='images/samurai-sci-fi-city-moon-digital-art-4k-wallpaper-uhdpaper.com-239@0@k.jpg'), 'price': '$149', 'description': '24/7 support to troubleshoot and resolve your technical issues.'}
-    ] %}
-
-    {% for service in services %}
-    <div class="col">
-      <div class="card service-card h-100 border-0">
-        <img src="{{ service.image }}" class="card-img service-image" alt="{{ service.title }}">
-        <div class="card-overlay">
-          <h5 class="card-title mb-1">{{ service.title }}</h5>
-          <div class="service-price mb-2">{{ service.price }}</div>
-          <a href="{{ url_for('service_detail', service_id=service.id) }}" class="btn btn-sm view-btn">View More</a>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for service in services %}
+        <div class="animate-fade-in-up" style="animation-delay: {{ service.animation_delay }}s;">
+            <div class="relative overflow-hidden rounded-2xl shadow-xl border border-gray-700 bg-gray-800 service-card-wrapper">
+                <img src="{{ service.image_url }}" class="w-full service-image" alt="{{ service.title }}">
+                <div class="absolute bottom-0 left-0 right-0 p-6 pt-12 text-white card-overlay-gradient">
+                    <h5 class="text-2xl font-bold mb-2">{{ service.title }}</h5>
+                    <div class="text-green-400 text-xl font-semibold mb-3">{{ service.price }}</div>
+                    <p class="text-gray-300 text-sm mb-4 clamp-3-lines">{{ service.description }}</p> 
+                    <a href="{{ url_for('service_detail', service_id=service.id) }}"
+                       class="inline-block px-6 py-3 rounded-lg border border-blue-400 text-blue-400 font-bold
+                              transition duration-300 ease-in-out hover:bg-blue-400 hover:text-gray-900
+                              button-3d-effect shadow-md">
+                        View More <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-  </div>
 </div>
 {% endblock %}

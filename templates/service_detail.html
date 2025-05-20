@@ -1,49 +1,172 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% block title %}{{ service.title }}{% endblock %}
 
-{% block content %}
+{% block head_content %}
+{# Custom styles for this detail page - Consider moving to a separate CSS file in production #}
 <style>
-  .service-detail-image {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 15px;
-  }
+    body {
+        background: linear-gradient(to bottom right, #1a202c, #2d3748); /* Subtle dark gradient background */
+        min-height: 100vh; /* Ensure background covers full viewport height */
+    }
 
-  .buy-btn {
-    background-color: #0d6efd;
-    color: white;
-    border-radius: 25px;
-    padding: 10px 20px;
-    font-size: 1.1rem;
-    margin-top: 20px;
-    text-decoration: none;
-    display: inline-block;
-    transition: 0.3s;
-  }
+    .service-detail-card {
+        background-color: #2d3748; /* Darker card background */
+        border-radius: 1.25rem; /* More rounded corners */
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper, softer shadow */
+        color: #e2e8f0; /* Light text color */
+        transition: transform 0.3s ease-out; /* Smooth transition for card hover */
+    }
 
-  .buy-btn:hover {
-    background-color: #ffc107;
-  }
+    .service-detail-card:hover {
+        transform: translateY(-5px); /* Slight lift on hover */
+    }
+
+    .service-detail-image {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        height: 380px; /* Taller image for impact */
+        object-fit: cover;
+        width: 100%;
+        filter: brightness(0.7); /* Darken image slightly */
+        transition: filter 0.3s ease-in-out;
+    }
+
+    .service-detail-image:hover {
+        filter: brightness(0.9); /* Brighten image on hover */
+    }
+
+    .detail-link {
+        color: #63b3ed; /* A nice blue for links */
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+        text-decoration: none; /* Remove default underline */
+    }
+
+    .detail-link:hover {
+        color: #90cdf4; /* Lighter blue on hover */
+        text-decoration: underline; /* Underline on hover */
+    }
+
+    .price-text {
+        color: #48bb78; /* Green for price */
+        font-weight: 700; /* Bold */
+        font-size: 2rem; /* Larger font size */
+        letter-spacing: 0.05em; /* Slight letter spacing for impact */
+    }
+
+    .buy-button {
+        background: linear-gradient(to right, #667eea, #764ba2); /* Gradient background for Buy button */
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: 9999px; /* Pill shape */
+        font-weight: 700;
+        font-size: 1.25rem;
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem; /* Space between text and icon */
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); /* Shadow for button */
+    }
+
+    .buy-button:hover {
+        transform: translateY(-3px); /* Lift effect */
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6); /* Enhanced shadow on hover */
+        background: linear-gradient(to right, #764ba2, #667eea); /* Reverse gradient on hover */
+        color: white; /* Ensure text remains white */
+    }
+
+    .back-button {
+        background-color: #4a5568; /* Dark gray button */
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .back-button:hover {
+        background-color: #2d3748; /* Darker gray on hover */
+        transform: translateY(-2px); /* Slight lift effect */
+        color: white; /* Ensure text remains white */
+    }
 </style>
+{% endblock %}
 
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-6">
-      <img src="{{ url_for('static', filename='images/' ~ service.image) }}" class="service-detail-image" alt="{{ service.title }}">
+{% block content %}
+<div class="container mx-auto px-4 py-8 flex justify-center items-center min-h-[calc(100vh - 100px)]"> {# Adjusted min-h for potential header/footer #}
+    <div class="w-full max-w-4xl service-detail-card p-8 md:p-10 lg:p-12"> {# Increased padding #}
+        
+        {% if service.image %}
+            <img src="{{ url_for('static', filename='images/' + service.image) }}" class="service-detail-image mb-8" alt="{{ service.title }}">
+        {% else %}
+            <img src="{{ url_for('static', filename='images/default.jpg') }}" class="service-detail-image mb-8" alt="Default Image">
+        {% endif %}
+
+        <h2 class="text-5xl font-extrabold mb-3 text-white text-center md:text-left">{{ service.title }}</h2> {# Larger, bolder, and responsive text alignment #}
+        <p class="text-blue-300 text-xl font-semibold mb-6 capitalize text-center md:text-left">
+            Type: {{ service.type | replace('_', ' ') | title }}
+        </p>
+
+        <hr class="border-gray-700 my-6"> {# Visual separator #}
+
+        <p class="text-gray-300 text-lg mb-8 leading-relaxed">{{ service.description }}</p>
+
+        <div class="flex flex-col md:flex-row md:justify-between md:items-center mb-8">
+            <p class="price-text mb-4 md:mb-0">Price: {{ service.price }}</p>
+            <a href="{{ url_for('buy_service', service_id=service.id) }}" class="buy-button">
+                <i class="fas fa-shopping-cart"></i> Buy Now
+            </a>
+        </div>
+        
+        {# Dynamic Details Section #}
+        <div class="space-y-4 mb-10"> {# Adds vertical space between detail paragraphs and margin-bottom #}
+            {% if service.type == 'movie_downloader' %}
+                <h4 class="text-2xl font-bold text-gray-200">Movie Downloader Specifics:</h4>
+                {% if service.website_link %}
+                    <p class="text-gray-300"><strong>Website:</strong> <a href="{{ service.website_link }}" target="_blank" rel="noopener noreferrer" class="detail-link">{{ service.website_link }}</a></p>
+                {% endif %}
+                {% if service.features_list %}
+                    <p class="text-gray-300"><strong>Features:</strong> {{ service.features_list }}</p>
+                {% endif %}
+            {% elif service.type == 'youtube_downloader' %}
+                <h4 class="text-2xl font-bold text-gray-200">YouTube Downloader Specifics:</h4>
+                {% if service.website_link %}
+                    <p class="text-gray-300"><strong>Website:</strong> <a href="{{ service.website_link }}" target="_blank" rel="noopener noreferrer" class="detail-link">{{ service.website_link }}</a></p>
+                {% endif %}
+                {% if service.supported_formats %}
+                    <p class="text-gray-300"><strong>Supported Formats:</strong> {{ service.supported_formats }}</p>
+                {% endif %}
+            {% elif service.type == 'coding_project' %}
+                <h4 class="text-2xl font-bold text-gray-200">Coding Project Specifics:</h4>
+                {% if service.github_link %}
+                    <p class="text-gray-300"><strong>GitHub:</strong> <a href="{{ service.github_link }}" target="_blank" rel="noopener noreferrer" class="detail-link">{{ service.github_link }}</a></p>
+                {% endif %}
+                {% if service.tech_stack %}
+                    <p class="text-gray-300"><strong>Tech Stack:</strong> {{ service.tech_stack }}</p>
+                {% endif %}
+                {% if service.live_demo_link %}
+                    <p class="text-gray-300"><strong>Live Demo:</strong> <a href="{{ service.live_demo_link }}" target="_blank" rel="noopener noreferrer" class="detail-link">{{ service.live_demo_link }}</a></p>
+                {% endif %}
+            {% else %} {# Default for 'general' type or if type is not recognized #}
+                {% if service.features %}
+                    <h4 class="text-2xl font-bold text-gray-200">Additional Details:</h4>
+                    <p class="text-gray-300"><strong>Features:</strong> {{ service.features }}</p>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <div class="mt-8 text-center">
+            <a href="{{ url_for('index') }}" class="back-button">
+                <i class="fas fa-arrow-left"></i> Back to Services
+            </a>
+        </div>
     </div>
-    <div class="col-md-6">
-      <h2>{{ service.title }}</h2>
-      <p><strong>Price:</strong> {{ service.price }}</p>
-      <p>{{ service.description }}</p>
-      <p><strong>Features:</strong></p>
-      <ul>
-        {% for feature in service.features.split(', ') %}
-          <li>{{ feature }}</li>
-        {% endfor %}
-      </ul>
-      <a href="#" class="buy-btn">Buy Now</a>
-    </div>
-  </div>
 </div>
 {% endblock %}

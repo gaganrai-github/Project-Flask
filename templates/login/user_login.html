@@ -1,28 +1,62 @@
 {% extends 'base.html' %}
+
 {% block title %}User Login{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h2 class="text-center mb-4">User Login</h2>
+<div class="flex items-center justify-center p-4 mt-16 mb-16"> {# Increased mt/mb to 16 for slightly more vertical space #}
+    <div class="w-full max-w-sm sm:max-w-md bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-3xl p-6 sm:p-8 transform transition-all duration-300 hover:scale-[1.005] hover:shadow-4xl border border-gray-700 hover:border-blue-500/50"> {# Max-width back to sm:max-w-md, padding to p-6 sm:p-8 #}
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white text-center mb-6 drop-shadow-lg"> {# Heading size and mb increased #}
+            User Login
+        </h1>
+        <p class="text-center text-gray-300 mb-6 text-sm sm:text-base opacity-90">Access your account.</p> {# Text size and mb increased #}
 
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <form method="post" class="p-4 shadow rounded bg-light">
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
-        </div>
+        <form method="post" class="space-y-5"> {# Vertical spacing increased #}
+            {# CSRF Token for Security (Example with Flask-WTF) #}
+            {# {{ form.csrf_token }} #}
 
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
-        </div>
+            <div>
+                <label for="email" class="block text-gray-200 text-base font-semibold mb-2 after:content-['*'] after:ml-0.5 after:text-red-400"> {# Label text size and mb increased #}
+                    <i class="fas fa-envelope mr-2 text-blue-400"></i> Email Address
+                </label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="w-full px-4 py-2.5 bg-gray-700/70 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 text-base" {# Input padding and font size maintained for readability #}
+                    placeholder="name@example.com"
+                    required aria-label="Enter your email address"
+                >
+            </div>
 
-        <div class="d-grid">
-          <button type="submit" class="btn btn-primary">Login</button>
-        </div>
-      </form>
+            <div class="mb-5"> {# Increased margin-bottom #}
+                <label for="password" class="block text-gray-200 text-base font-semibold mb-2 after:content-['*'] after:ml-0.5 after:text-red-400">
+                    <i class="fas fa-lock mr-2 text-blue-400"></i> Password
+                </label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="w-full px-4 py-2.5 bg-gray-700/70 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all duration-300 text-base"
+                    placeholder="Enter your password"
+                    required aria-label="Enter your password"
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-cyan-500 hover:to-blue-600 text-white font-bold text-xl rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-blue-500" {# Button padding, font, and icon size increased #}
+                aria-label="Login to your account"
+            >
+                <i class="fas fa-sign-in-alt text-2xl"></i> Login
+            </button>
+        </form>
+
+        <p class="text-center text-gray-400 mt-8 text-sm"> {# Text size and mt increased #}
+            Don't have an account?
+            <a href="{{ url_for('register') }}" class="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-300 ml-1">
+                Register here
+            </a>
+        </p>
     </div>
-  </div>
 </div>
 {% endblock %}

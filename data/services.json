@@ -1,0 +1,23 @@
+{
+    "1": {
+        "title": "Web Development",
+        "price": "$499",
+        "description": "Full-stack web development for your business, including front-end and back-end solutions.",
+        "image": "samurai-sci-fi-city-moon-digital-art-4k-wallpaper-uhdpaper.com-239@0@k.jpg",
+        "features": "Responsive design, Custom CMS, E-commerce integration"
+    },
+    "2": {
+        "title": "Mobile App Design",
+        "price": "$399",
+        "description": "Creative and user-friendly mobile app designs for both Android and iOS.",
+        "image": "road-sunset-car-city-buildings-scenery-digital-art-4k-wallpaper-uhdpaper.com-334@1@m.jpg",
+        "features": "UI/UX design, Cross-platform compatibility, Push notifications"
+    },
+    "3": {
+        "title": "AI Chatbot Integration",
+        "price": "$599",
+        "description": "Integrate AI chatbots for customer support, increasing engagement and efficiency.",
+        "image": "kung-fu-panda-4-po-zhen-4k-wallpaper-uhdpaper.com-452@1@n.jpg",
+        "features": "Natural language processing, 24/7 support, Customizable responses"
+    }
+}

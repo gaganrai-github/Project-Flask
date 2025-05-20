@@ -1,15 +1,44 @@
-{% extends 'base.html' %}
-{% block title %}Dashboard{% endblock %}
-{% block content %}
-<div class="container text-center mt-5">
-  <h2 class="fw-bold text-primary">Welcome, {{ name }}!</h2>
-  <p class="text-muted">This is the User dashboard.</p>
+{% extends "base.html" %}
 
-  <div class="d-grid gap-3 mt-4 col-6 mx-auto">
-    <a href="{{ url_for('login_options') }}" class="btn btn-primary">🔐 Login</a>
-    <a href="{{ url_for('camera') }}" class="btn btn-secondary">📷 Camera</a>
-    <a href="{{ url_for('location') }}" class="btn btn-info">📍 Location</a>
-    <a href="{{ url_for('other_options') }}" class="btn btn-dark">🧩 Other</a>
-  </div>
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen p-4 mt-8 mb-8"> {# Overall centering and padding #}
+    <div class="w-full max-w-md bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-3xl p-6 transform transition-all duration-300 border border-gray-700"> {# Main card for the dashboard #}
+        
+        <h1 class="text-4xl font-extrabold text-white text-center mb-4 drop-shadow-lg">
+            Welcome, <span class="text-green-400">{{ name }}</span>!
+        </h1>
+        <p class="text-center text-gray-300 mb-8 text-lg opacity-90">
+            This is your personalized user dashboard.
+        </p>
+
+        <div class="space-y-4"> {# Increased spacing between buttons #}
+            <a href="{{ url_for('login_options') }}" 
+               class="flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-500 hover:from-indigo-500 hover:to-blue-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-blue-500"
+               aria-label="Go to Login Options">
+                <i class="fas fa-lock mr-3 text-2xl"></i> Login
+            </a>
+            <a href="{{ url_for('camera') }}" 
+               class="flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-pink-500 hover:to-purple-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-purple-500"
+               aria-label="Open Camera">
+                <i class="fas fa-camera mr-3 text-2xl"></i> Camera
+            </a>
+            <a href="{{ url_for('location') }}" 
+               class="flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-green-600 to-teal-500 hover:from-teal-500 hover:to-green-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-green-500"
+               aria-label="View Location">
+                <i class="fas fa-map-marker-alt mr-3 text-2xl"></i> Location
+            </a>
+            <a href="{{ url_for('other_options') }}" 
+               class="flex items-center justify-center w-full py-3 px-6 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-amber-500 hover:to-orange-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-700 focus:ring-orange-500"
+               aria-label="Explore Other Options">
+                <i class="fas fa-puzzle-piece mr-3 text-2xl"></i> Other
+            </a>
+        </div>
+        
+        <p class="text-center text-gray-400 mt-8 text-sm">
+            Ready to explore? Choose an option above.
+        </p>
+    </div>
 </div>
 {% endblock %}

@@ -1,163 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>{% block title %}Flask App{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Flask App{% endblock %}</title>
 
-  <!-- Bootstrap & Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCXd/XPqjK/8J6Dkrj/UXpLwoNdRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(120deg, #f8f9fa, #e8f0ff);
-      scroll-behavior: smooth;
-    }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-dark': '#1A1A2E',
+                        'secondary-dark': '#16213E',
+                        'accent-purple': '#663399',
+                        'accent-light-blue': '#0F3460',
+                        'text-light': '#E0E0E0',
+                        'neon-green': '#00FF00',
+                        'neon-blue': '#00BFFF',
+                    },
+                    boxShadow: {
+                        'soft-light': '5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.08)',
+                        'soft-dark': 'inset 5px 5px 10px rgba(0, 0, 0, 0.4), inset -5px -5px 10px rgba(255, 255, 255, 0.03)',
+                        'glow-green': '0 0 10px #00FF00, 0 0 20px rgba(0,255,0,0.5)',
+                        'glow-blue': '0 0 10px #00BFFF, 0 0 20px rgba(0,191,255,0.5)',
+                        'header-glow': '0 10px 30px rgba(0, 255, 255, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2)',
+                        'card-depth': '0 15px 40px rgba(0,0,0,0.4), 0 5px 15px rgba(0,0,0,0.15)', // A strong, clean shadow for depth
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 5px rgba(0, 255, 255, 0.2)' },
+                            '50%': { boxShadow: '0 0 15px rgba(0, 255, 255, 0.6)' },
+                        },
+                        panBackground: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '100%': { backgroundPosition: '100% 50%' },
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.7s ease-out forwards',
+                        'pulse-glow': 'pulseGlow 2s infinite ease-in-out',
+                        'pan-background': 'panBackground 20s linear infinite alternate',
+                    },
+                }
+            }
+        }
+    </script>
 
-    body {
-      display: flex;
-      flex-direction: column;
-    }
+    <style>
+        /* Global perspective for 3D transforms (still useful for button pop effects) */
+        body {
+            perspective: 1200px;
+            overflow-x: hidden; /* Prevent horizontal scrollbar from layout shifts */
+            background: linear-gradient(135deg, var(--tw-gradient-stops)); /* Uses Tailwind's background gradient */
+            background-size: 200% 200%; /* For pan-background animation */
+            animation: pan-background 20s linear infinite alternate;
+        }
 
-    header {
-      background: linear-gradient(to right, #0d6efd, #6610f2);
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+        /* Direct CSS for gradients and custom styles not easily achieved with CDN */
+        .header-bg {
+            background: linear-gradient(to right, #1A1A2E, #0F3460); /* primary-dark to accent-light-blue */
+        }
+        .footer-bg {
+            background: linear-gradient(to right, #16213E, #1A1A2E); /* secondary-dark to primary-dark */
+        }
+        .main-content-bg {
+            background: linear-gradient(145deg, #16213E, #1A1A2E); /* secondary-dark to primary-dark */
+        }
+        .btn-gradient {
+            background: linear-gradient(45deg, #663399, #0F3460); /* accent-purple to accent-light-blue */
+        }
 
-    nav a {
-      margin: 0 15px;
-      color: #fff;
-      font-weight: 600;
-      text-decoration: none;
-      position: relative;
-      transition: color 0.3s;
-    }
+        /* --- Updated Effects (No Tilt) --- */
+        .card-depth-effect {
+            transition: box-shadow 0.3s ease-out, transform 0.2s ease-out; /* Smooth transition for hover effects */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3), 0 5px 10px rgba(0,0,0,0.1); /* Initial subtle depth */
+        }
+        .card-depth-effect:hover {
+            transform: translateY(-5px); /* Lift slightly on hover */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 10px 20px rgba(0,0,0,0.2); /* Deeper shadow on hover */
+        }
 
-    nav a::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 2px;
-      display: block;
-      margin-top: 5px;
-      right: 0;
-      background: #ffc107;
-      transition: width 0.3s ease;
-      -webkit-transition: width 0.3s ease;
-    }
+        .button-3d-effect {
+            transform-style: preserve-3d; /* Still useful for inner perspective effects if desired */
+            transform: translateZ(0); /* Ensure it's rendered in 3D space */
+            transition: all 0.2s ease-out;
+        }
+        .button-3d-effect:hover {
+            transform: translateZ(10px) scale(1.02); /* Pop out slightly */
+            box-shadow: 0 0 10px #00BFFF, 0 0 20px rgba(0,191,255,0.5); /* Neon glow */
+        }
+        .button-3d-effect:active {
+            transform: translateZ(0) scale(0.98); /* Press in effect */
+            box-shadow: inset 5px 5px 10px rgba(0, 0, 0, 0.4), inset -5px -5px 10px rgba(255, 255, 255, 0.03); /* Inset shadow */
+        }
 
-    nav a:hover {
-      color: #ffc107;
-    }
+        /* Advanced Nav Link Underline */
+        .nav-link-underline-3d {
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-link-underline-3d::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #00FF00; /* neon-green */
+            transform: translateX(-100%) scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease-out;
+        }
+        .nav-link-underline-3d:hover::after {
+            transform: translateX(0) scaleX(1);
+        }
 
-    nav a:hover::after {
-      width: 100%;
-      left: 0;
-      background: #ffc107;
-    }
+        /* Flash Messages */
+        .flash-message {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .flash-message.success {
+            background-color: rgba(0, 128, 0, 0.7); /* dark green with opacity */
+            color: #90EE90; /* light green */
+            border: 1px solid rgba(0, 128, 0, 0.5);
+        }
+        .flash-message.error {
+            background-color: rgba(128, 0, 0, 0.7); /* dark red with opacity */
+            color: #FFB6C1; /* light pink */
+            border: 1px solid rgba(128, 0, 0, 0.5);
+        }
+        .flash-message.info {
+            background-color: rgba(0, 0, 128, 0.7); /* dark blue with opacity */
+            color: #ADD8E6; /* light blue */
+            border: 1px solid rgba(0, 0, 128, 0.5);
+        }
 
-    main {
-      padding: 40px 20px;
-      margin: 30px auto;
-      max-width: 1100px;
-      width: 95%;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(12px);
-      flex: 1;
-    }
+        /* Table styles */
+        .table-layout {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+            border-radius: 0.75rem; /* rounded-lg */
+            overflow: hidden; /* For rounded corners to apply to content */
+            background: linear-gradient(180deg, #16213E, #1A1A2E); /* secondary-dark to primary-dark */
+        }
+        .table-layout th {
+            padding: 0.75rem 1.5rem; /* px-6 py-3 */
+            background-color: #663399; /* accent-purple */
+            color: #E0E0E0; /* text-light */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            text-transform: uppercase;
+            letter-spacing: 0.05em; /* tracking-wider */
+            border-bottom: 1px solid #0F3460; /* accent-light-blue */
+        }
+        .table-layout td {
+            padding: 1rem 1.5rem; /* px-6 py-4 */
+            white-space: nowrap;
+            color: #E0E0E0; /* text-light */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .table-layout tbody tr:nth-child(odd) {
+            background-color: #16213E; /* secondary-dark */
+        }
+        .table-layout tbody tr:nth-child(even) {
+            background-color: #1A1A2E; /* primary-dark */
+        }
+        .table-layout tbody tr:hover {
+            background-color: rgba(15, 52, 96, 0.5); /* accent-light-blue with opacity */
+            transition: background-color 0.2s;
+        }
 
-    footer {
-      background: linear-gradient(to right, #6610f2, #6f42c1);
-      color: #eee;
-      padding: 15px 0;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-
-    .btn-outline-pink {
-      color: #e1306c;
-      border-color: #e1306c;
-      transition: 0.3s ease;
-    }
-
-    .btn-outline-pink:hover {
-      background-color: #e1306c;
-      color: white;
-    }
-
-    .glass-navbar {
-      backdrop-filter: blur(12px);
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 0.5rem 1rem;
-      display: inline-block;
-    }
-
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 1.5rem;
-      }
-
-      nav a {
-        display: block;
-        margin: 10px 0;
-      }
-
-      main {
-        padding: 20px 15px;
-        margin: 20px auto;
-      }
-    }
-  </style>
+        /* Scrollbar (optional, but good for dark themes) */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A1A2E; /* primary-dark */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #663399; /* accent-purple */
+            border-radius: 10px;
+            border: 3px solid #1A1A2E; /* primary-dark */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00FF00; /* neon-green */
+        }
+    </style>
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen font-sans text-text-light bg-gradient-to-br from-primary-dark to-secondary-dark">
 
-  <header>
-  <div class="container">
-    <h1 class="mb-3">🚀 My Flask Application</h1>
-    <div class="glass-navbar">
-      <nav>
-        <a href="{{ url_for('index') }}"><i class="bi bi-house-door"></i> Home</a>
-        {% if current_user.is_authenticated %}
-          {% if current_user.is_admin %}
-            <a href="{{ url_for('admin_dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
-          {% else %}
-            <a href="{{ url_for('user_dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard</a>
-          {% endif %}
-          <a href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right"></i> Logout</a>
-        {% else %}
-          <a href="{{ url_for('login') }}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
-          <a href="{{ url_for('register') }}"><i class="bi bi-person-plus"></i> Register</a>
-        {% endif %}
-      </nav>
-    </div>
-  </div>
-</header>
+    <header class="header-bg text-text-light py-6 text-center shadow-header-glow sticky top-0 z-50 overflow-hidden">
+        <div class="relative z-10 max-w-6xl mx-auto px-6">
+            <h1 class="text-4xl md:text-6xl font-display font-bold mb-4 animate-fade-in-up drop-shadow-lg">
+                <span class="text-neon-green">SYNAPSE</span> Nexus <span class="text-neon-blue">HUB</span>
+            </h1>
+            <div class="glass-navbar inline-block rounded-3xl px-8 py-4 shadow-xl
+                        backdrop-filter backdrop-blur-xl bg-white bg-opacity-5 border border-white border-opacity-10
+                        transition duration-300 ease-in-out hover:bg-opacity-10 hover:shadow-glow-blue">
+                <nav class="flex flex-wrap justify-center gap-x-8 md:gap-x-12 text-lg">
+                    <a href="{{ url_for('index') }}" class="text-text-light font-semibold hover:text-neon-green transition-colors duration-300 nav-link-underline-3d">
+                        <i class="fas fa-home mr-2"></i> Home
+                    </a>
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_admin %}
+                            <a href="{{ url_for('admin_dashboard') }}" class="text-text-light font-semibold hover:text-neon-green transition-colors duration-300 nav-link-underline-3d">
+                                <i class="fas fa-tachometer-alt mr-2"></i> Admin Panel
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for('user_dashboard') }}" class="text-text-light font-semibold hover:text-neon-green transition-colors duration-300 nav-link-underline-3d">
+                                <i class="fas fa-tachometer-alt mr-2"></i> My Dashboard
+                            </a>
+                        {% endif %}
+                        <a href="{{ url_for('logout') }}" class="text-text-light font-semibold hover:text-neon-green transition-colors duration-300 nav-link-underline-3d">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="text-text-light font-semibold hover:text-neon-green transition-colors duration-300 nav-link-underline-3d">
+                            <i class="fas fa-sign-in-alt mr-2"></i> Login
+                        </a>
+                        <a href="{{ url_for('register') }}" class="text-text-light font-semibold hover:text-neon-green transition-colors duration-300 nav-link-underline-3d">
+                            <i class="fas fa-user-plus mr-2"></i> Register
+                        </a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+        {# Optional: Decorative background elements for header (purely visual) #}
+        <div class="absolute inset-0 z-0 opacity-15" style="background-image: url('data:image/svg+xml,%3Csvg width=\'6\' height=\'6\' viewBox=\'0 0 6 6\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%230F3460\' fill-opacity=\'0.3\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M5 0h1L0 6V5zm1 6v-1L1 0h1z\'/%3E%3C/g%3E%3C/svg%3E');"></div>
+    </header>
 
+    <main class="flex-grow p-8 mx-auto my-10 max-w-7xl w-11/12 rounded-3xl main-content-bg backdrop-blur-xl border border-secondary-dark card-depth-effect">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-6 space-y-3">
+                    {% for category, message in messages %}
+                        <div class="flash-message {% if category == 'success' %}success{% elif category == 'error' %}error{% else %}info{% endif %}">
+                            <i class="fas {% if category == 'success' %}fa-check-circle{% elif category == 'error' %}fa-exclamation-triangle{% else %}fa-info-circle{% endif %} text-lg mr-3"></i>
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
 
-  <main>
-    {% block content %}{% endblock %}
-  </main>
+        {% block content %}{% endblock %}
+    </main>
 
-  <footer>
-    <p>&copy; 2025 Flask App. Made with 💙 in Flask</p>
-  </footer>
+    <footer class="footer-bg text-gray-400 pt-12 pb-8 text-sm shadow-inner mt-auto">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            
+            <div class="col-span-1">
+                <h3 class="text-lg font-semibold text-text-light mb-4 flex items-center">
+                    <i class="fas fa-microchip text-neon-green mr-2"></i> About SYNAPSE
+                </h3>
+                <p class="text-gray-400 leading-relaxed">
+                    SYNAPSE Nexus is your ultimate platform for futuristic applications. We connect innovation with seamless user experiences.
+                </p>
+                <div class="flex space-x-4 mt-6">
+                    <a href="https://twitter.com/yourprofile" target="_blank" class="text-gray-400 hover:text-neon-blue transition-colors duration-300">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/yourprofile" target="_blank" class="text-gray-400 hover:text-neon-blue transition-colors duration-300">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                    <a href="https://github.com/yourprofile" target="_blank" class="text-gray-400 hover:text-neon-blue transition-colors duration-300">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="https://instagram.com/yourprofile" target="_blank" class="text-gray-400 hover:text-neon-blue transition-colors duration-300">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-span-1">
+                <h3 class="text-lg font-semibold text-text-light mb-4 flex items-center">
+                    <i class="fas fa-link text-neon-green mr-2"></i> Quick Links
+                </h3>
+                <ul class="space-y-3">
+                    <li><a href="{{ url_for('index') }}" class="text-gray-400 hover:text-neon-blue transition-colors duration-300">Home</a></li>
+                    <li><a href="{{ url_for('login') }}" class="text-gray-400 hover:text-neon-blue transition-colors duration-300">Login</a></li>
+                    <li><a href="{{ url_for('register') }}" class="text-gray-400 hover:text-neon-blue transition-colors duration-300">Register</a></li>
+                    {# Add more links here like About Us, Services, Pricing, etc. #}
+                    <li><a href="#" class="text-gray-400 hover:text-neon-blue transition-colors duration-300">Privacy Policy</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-neon-blue transition-colors duration-300">Terms of Service</a></li>
+                </ul>
+            </div>
+
+            <div class="col-span-1 md:col-span-1 lg:col-span-2">
+                <h3 class="text-lg font-semibold text-text-light mb-4 flex items-center">
+                    <i class="fas fa-envelope text-neon-green mr-2"></i> Contact Us
+                </h3>
+                <p class="text-gray-400 mb-3">Have questions or need support? Reach out to us!</p>
+                <div class="space-y-2">
+                    <p><i class="fas fa-map-marker-alt text-neon-blue mr-2"></i> 123 Future Ave, Cyber City, CYB 45678</p>
+                    <p><i class="fas fa-phone-alt text-neon-blue mr-2"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-paper-plane text-neon-blue mr-2"></i> <a href="mailto:support@synapsenexus.com" class="hover:underline text-neon-blue">support@synapsenexus.com</a></p>
+                </div>
+                <p class="text-gray-400 mt-6">
+                    Our team is based in **Indore, Madhya Pradesh, India**.
+                </p>
+            </div>
+        </div>
+
+        <div class="border-t border-secondary-dark mt-10 pt-6 text-center text-gray-500">
+            <p>&copy; 2025 <span class="text-neon-green font-semibold">SYNAPSE</span> Nexus. All rights reserved. Crafted with <i class="fas fa-heart text-red-500 animate-pulse-glow"></i> in Flask.</p>
+        </div>
+    </footer>
 
 </body>
 </html>
