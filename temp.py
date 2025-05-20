@@ -1,0 +1,3 @@
+from werkzeug.security import generate_password_hash
+
+print(generate_password_hash("scrypt:32768:8:1$vK3gWBulvhSg22oH$aadfa2a993c7205564b4c30ee616c848a52eb9e9ab4f3ceb2c5323cb68f90fdee4edd2fa03900d463125bd59c388254908a47e7fd314f7acfac68c56639f4b10"))

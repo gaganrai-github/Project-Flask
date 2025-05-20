@@ -1,5 +1,88 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
+
 {% block content %}
-<h2>Welcome to the Flask App</h2>
+<style>
+  .service-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .service-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .service-image {
+    height: 220px;
+    object-fit: cover;
+    filter: brightness(0.8);
+  }
+
+  .card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    color: #fff;
+  }
+
+  .service-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #ffc107;
+  }
+
+  .view-btn {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transition: 0.3s;
+  }
+
+  .view-btn:hover {
+    background-color: #0d6efd;
+    color: white;
+  }
+</style>
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4 text-gradient fw-bold">🚀 Premium Services</h2>
+  <p class="text-center text-muted mb-5">High-quality digital solutions to boost your brand, business, and creativity.</p>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% set services = [
+      {'id': 1, 'title': 'Web Development', 'image': url_for('static', filename='images/samurai-sci-fi-city-moon-digital-art-4k-wallpaper-uhdpaper.com-239@0@k.jpg'), 'price': '$499', 'description': 'Full-stack web development for your business, including front-end and back-end solutions.'},
+      {'id': 2, 'title': 'Mobile App Design', 'image': url_for('static', filename='images/road-sunset-car-city-buildings-scenery-digital-art-4k-wallpaper-uhdpaper.com-334@1@m.jpg'), 'price': '$399', 'description': 'Creative and user-friendly mobile app designs for both Android and iOS.'},
+      {'id': 3, 'title': 'AI Chatbot Integration', 'image': url_for('static', filename='images/kung-fu-panda-4-po-zhen-4k-wallpaper-uhdpaper.com-452@1@n.jpg'), 'price': '$599', 'description': 'Integrate AI chatbots for customer support, increasing engagement and efficiency.'},
+      {'id': 4, 'title': 'SEO Optimization', 'image': url_for('static', filename='images/japanese-castle-cherry-blossom-mountain-digital-art-scenery-4k-wallpaper-uhdpaper.com-702@1@k.jpg'), 'price': '$299', 'description': 'Improve your website ranking with comprehensive SEO services.'},
+      {'id': 5, 'title': 'Digital Marketing', 'image': url_for('static', filename='images/fortnite-she-hulk-thor-storm-iron-man-uhdpaper.com-4K-7.2567.jpg'), 'price': '$449', 'description': 'Boost your brand visibility through tailored digital marketing campaigns.'},
+      {'id': 6, 'title': 'Cloud Setup (AWS/GCP)', 'image': url_for('static', filename='images/deadpool-marvel-4k-wallpaper-uhdpaper.com-32@5@a.jpg'), 'price': '$699', 'description': 'Cloud infrastructure setup and management for scalable solutions.'},
+      {'id': 7, 'title': 'Data Analytics Dashboard', 'image': url_for('static', filename='images/samurai-sci-fi-city-moon-digital-art-4k-wallpaper-uhdpaper.com-239@0@k.jpg'), 'price': '$549', 'description': 'Powerful dashboards to visualize your data and make data-driven decisions.'},
+      {'id': 8, 'title': 'E-commerce Website', 'image': url_for('static', filename='images/road-sunset-car-city-buildings-scenery-digital-art-4k-wallpaper-uhdpaper.com-334@1@m.jpg'), 'price': '$799', 'description': 'End-to-end solutions for building online stores with secure payment systems.'},
+      {'id': 9, 'title': 'Logo & Brand Design', 'image': url_for('static', filename='images/japanese-castle-cherry-blossom-mountain-digital-art-scenery-4k-wallpaper-uhdpaper.com-702@1@k.jpg'), 'price': '$199', 'description': 'Unique and creative logo design and brand identity solutions.'},
+      {'id': 10, 'title': 'Cybersecurity Audit', 'image': url_for('static', filename='images/japanese-castle-cherry-blossom-mountain-digital-art-scenery-4k-wallpaper-uhdpaper.com-702@1@k.jpg'), 'price': '$349', 'description': 'Complete security audit to ensure your business is protected from cyber threats.'},
+      {'id': 11, 'title': 'Custom API Development', 'image': url_for('static', filename='images/deadpool-marvel-4k-wallpaper-uhdpaper.com-32@5@a.jpg'), 'price': '$499', 'description': 'Custom API development to integrate various platforms and services.'},
+      {'id': 12, 'title': 'Technical Support', 'image': url_for('static', filename='images/samurai-sci-fi-city-moon-digital-art-4k-wallpaper-uhdpaper.com-239@0@k.jpg'), 'price': '$149', 'description': '24/7 support to troubleshoot and resolve your technical issues.'}
+    ] %}
+
+    {% for service in services %}
+    <div class="col">
+      <div class="card service-card h-100 border-0">
+        <img src="{{ service.image }}" class="card-img service-image" alt="{{ service.title }}">
+        <div class="card-overlay">
+          <h5 class="card-title mb-1">{{ service.title }}</h5>
+          <div class="service-price mb-2">{{ service.price }}</div>
+          <a href="{{ url_for('service_detail', service_id=service.id) }}" class="btn btn-sm view-btn">View More</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

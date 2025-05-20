@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container text-center mt-5">
+  <h2 class="fw-bold text-primary">Welcome, {{ name }}!</h2>
+  <p class="text-muted">This is the User dashboard.</p>
+
+  <div class="d-grid gap-3 mt-4 col-6 mx-auto">
+    <a href="{{ url_for('login_options') }}" class="btn btn-primary">🔐 Login</a>
+    <a href="{{ url_for('camera') }}" class="btn btn-secondary">📷 Camera</a>
+    <a href="{{ url_for('location') }}" class="btn btn-info">📍 Location</a>
+    <a href="{{ url_for('other_options') }}" class="btn btn-dark">🧩 Other</a>
+  </div>
+</div>
+{% endblock %}
