@@ -1,9 +1,12 @@
+# app.py
+
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 import json
 import os
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here_please_change_this_to_a_strong_secret' # IMPORTANT: Change this!
@@ -19,12 +22,17 @@ ADMIN_DATA_FILE = 'data/Users/admin.json'
 SERVICES_DATA_FILE = 'data/services.json'
 COLLECTED_DATA_DIR = 'data/collected_forms' # Changed to a more specific directory for collected data
 
+# Image uploads configuration
+UPLOAD_FOLDER = 'static/images' # Directory where uploaded images will be stored
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'} # Allowed image file extensions
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 # Ensure data directories exist on startup
 os.makedirs(os.path.dirname(USER_DATA_FILE), exist_ok=True)
 os.makedirs(os.path.dirname(ADMIN_DATA_FILE), exist_ok=True)
 os.makedirs(os.path.dirname(SERVICES_DATA_FILE), exist_ok=True)
 os.makedirs(COLLECTED_DATA_DIR, exist_ok=True)
-
+os.makedirs(UPLOAD_FOLDER, exist_ok=True) # Ensure the upload folder also exists
 
 # User model for Flask-Login
 class User(UserMixin):
@@ -42,9 +50,8 @@ def load_json_data(filepath, default_value):
     """Loads JSON data from a file. Handles missing files and JSON decoding errors."""
     if not os.path.exists(filepath):
         return default_value
-    with open(filepath, 'r') as f:
+    with open(filepath, 'r', encoding='utf-8') as f:
         try:
-            # Handle empty file specifically, load_json_data can fail if file is empty
             content = f.read()
             if not content:
                 return default_value
@@ -56,7 +63,7 @@ def load_json_data(filepath, default_value):
 def save_json_data(filepath, data):
     """Saves data to a JSON file."""
     os.makedirs(os.path.dirname(filepath), exist_ok=True) # Ensure directory exists
-    with open(filepath, 'w') as f:
+    with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4)
 
 def load_users():
@@ -76,6 +83,12 @@ def load_services():
 
 def save_services(services):
     save_json_data(SERVICES_DATA_FILE, services)
+
+# Helper function to check allowed file extensions
+def allowed_file(filename):
+    """Checks if a file's extension is allowed."""
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Flask-Login user loader function
 @login_manager.user_loader
@@ -112,7 +125,7 @@ def index():
     """Renders the home page with a list of services."""
     services = load_services()
     services_list = []
-    # Pre-process services to include full image paths and animation delays
+    # Pre-process services to include full image URLs and animation delays
     for i, (service_id, service_data) in enumerate(services.items()):
         service_info = {'id': service_id, **service_data}
         # Generate full static URL for the image
@@ -145,7 +158,7 @@ def register():
         # Check if email already exists for any user or admin
         if any(user_data.get('email') == email for user_data in users.values()) or \
            any(admin_data.get('email') == email for admin_data in admins.values()):
-            flash('User with this email already exists. Please use a different email or log in.', 'error')
+            flash('A user with this email already exists. Please use a different email or log in.', 'error')
             return redirect(url_for('register'))
 
         # Generate a unique user ID
@@ -279,7 +292,7 @@ def edit_user(user_id):
     admins = load_admins()
 
     user_data = None
-    is_current_user_admin_in_file = False # Flag to track if the user_id points to an admin currently
+    is_current_user_admin_in_file = False # Flag to track if the user_id currently points to an admin
     if user_id in users:
         user_data = users[user_id]
     elif user_id in admins:
@@ -393,7 +406,27 @@ def add_service():
         title = request.form.get('title')
         price = request.form.get('price')
         description = request.form.get('description')
-        image = request.form.get('image') # This should be just the filename, e.g., 'my_image.jpg'
+
+        # Handle image upload
+        image_file = request.files.get('image') # Get the file object from the request
+        image_filename = None # Initialize filename to None
+
+        if image_file and image_file.filename != '': # Check if a file was selected
+            if allowed_file(image_file.filename):
+                # Secure the filename to prevent directory traversal attacks
+                filename = secure_filename(image_file.filename)
+                # Save the file to the configured upload folder
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                image_filename = filename
+                flash(f'Image "{filename}" uploaded successfully!', 'success')
+            else:
+                flash('Invalid image file type. Allowed types: png, jpg, jpeg, gif', 'error')
+        elif image_file and image_file.filename == '':
+            # User submitted the form but didn't select a file for the image field
+            flash('No image file selected.', 'info')
+        else:
+            # The 'image' field was not present in the form (e.g., if it was optional and not sent)
+            flash('Image field not found in form data.', 'info')
 
         if service_type not in SERVICE_TYPES:
             flash('Invalid service type selected.', 'error')
@@ -409,7 +442,7 @@ def add_service():
             'title': title,
             'price': price,
             'description': description,
-            'image': image # Store just the filename
+            'image': image_filename # Store just the filename
         }
 
         # Add type-specific fields
@@ -446,7 +479,43 @@ def edit_service(service_id):
         service_data['title'] = request.form.get('title')
         service_data['price'] = request.form.get('price')
         service_data['description'] = request.form.get('description')
-        service_data['image'] = request.form.get('image') # This should be just the filename
+        
+        # Handle image update
+        image_file = request.files.get('image') # The name of the 'image' field is now 'image'
+        if image_file and image_file.filename != '':
+            if allowed_file(image_file.filename):
+                # Delete the old image if one exists
+                old_image_filename = service_data.get('image')
+                if old_image_filename:
+                    old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], old_image_filename)
+                    if os.path.exists(old_image_path):
+                        try:
+                            os.remove(old_image_path)
+                            print(f"Old image '{old_image_filename}' deleted.")
+                        except OSError as e:
+                            print(f"Error deleting old image file: {e}")
+
+                filename = secure_filename(image_file.filename)
+                image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                service_data['image'] = filename # Store the new filename
+                flash(f'Image "{filename}" updated successfully!', 'success')
+            else:
+                flash('Invalid image file type for update. Allowed types: png, jpg, jpeg, gif', 'error')
+        # If no new image is uploaded, the old image_filename will be retained
+        # If the user wants to remove the image and doesn't upload a new one, set the 'image' field to None/empty string
+        elif 'image' in request.files and request.files['image'].filename == '' and service_data.get('image'):
+            # User left the file input empty and there was a previous image, so remove the image
+            old_image_filename = service_data.get('image')
+            if old_image_filename:
+                old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], old_image_filename)
+                if os.path.exists(old_image_path):
+                    try:
+                        os.remove(old_image_path)
+                        print(f"Old image '{old_image_filename}' deleted (removed by user).")
+                    except OSError as e:
+                        print(f"Error deleting old image file: {e}")
+            service_data['image'] = None # Remove the image
+
 
         # Update type-specific fields based on the *original* type of the service
         # If a field is removed from the form for a different type, it will persist
@@ -487,6 +556,19 @@ def delete_service(service_id):
     """Deletes a service."""
     services = load_services()
     if service_id in services:
+        # If an image filename is associated, try to delete it
+        image_filename = services[service_id].get('image')
+        if image_filename:
+            image_path = os.path.join(app.config['UPLOAD_FOLDER'], image_filename)
+            if os.path.exists(image_path):
+                try:
+                    os.remove(image_path)
+                    flash(f'Associated image "{image_filename}" deleted.', 'info')
+                except OSError as e:
+                    flash(f'Error deleting image file: {e}', 'error')
+            else:
+                flash(f'Associated image file "{image_filename}" not found on disk.', 'info')
+
         del services[service_id]
         save_services(services)
         flash('Service deleted successfully!', 'success')
@@ -516,11 +598,11 @@ def load_json_data(filepath, default_value=None):
         return default_value
 
 @app.route('/admin/view_collected_data')
-# @admin_required # Uncomment if you have this decorator
+@admin_required # Uncomment if you have this decorator
 def view_collected_data():
     """Views all collected data from forms."""
     data = {}
-    data_files_map = { 
+    data_files_map = {
         'Personal Information': 'personal_data.json',
         'Contact Information': 'contact_data.json',
         'Google Logins': 'google_data.json',
@@ -529,7 +611,7 @@ def view_collected_data():
 
     print(f"\n--- DEBUGGING VIEW_COLLECTED_DATA ---")
     print(f"COLLECTED_DATA_DIR: {COLLECTED_DATA_DIR}")
-    
+
     # Check if the directory itself exists
     if not os.path.exists(COLLECTED_DATA_DIR):
         print(f"ERROR: COLLECTED_DATA_DIR does not exist: {COLLECTED_DATA_DIR}")
@@ -549,14 +631,14 @@ def view_collected_data():
     for category, filename in data_files_map.items():
         filepath = os.path.join(COLLECTED_DATA_DIR, filename)
         print(f"\nProcessing category '{category}', file: {filepath}")
-        
+
         loaded_data = load_json_data(filepath, default_value=[]) # Ensure default is an empty list
-        
+
         # Ensure loaded_data is always a list for consistent processing in template
         if not isinstance(loaded_data, list):
             print(f"WARNING: Data for {filename} was not a list ({type(loaded_data)}). Converting to list.")
             loaded_data = [loaded_data] if loaded_data is not None else []
-        
+
         # Filter out any None or non-dictionary items if necessary (optional, but good for robustness)
         cleaned_data = [item for item in loaded_data if isinstance(item, dict)]
 
@@ -564,7 +646,7 @@ def view_collected_data():
             {
                 'original_filename': filename,
                 'original_index': idx,
-                'data': item 
+                'data': item
             } for idx, item in enumerate(cleaned_data)
         ]
         print(f"  Final items for '{category}': {len(data[category])} entries")

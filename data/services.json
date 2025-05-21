@@ -19,5 +19,33 @@
         "description": "Integrate AI chatbots for customer support, increasing engagement and efficiency.",
         "image": "kung-fu-panda-4-po-zhen-4k-wallpaper-uhdpaper.com-452@1@n.jpg",
         "features": "Natural language processing, 24/7 support, Customizable responses"
+    },
+    "4": {
+        "type": "general",
+        "title": "Robots",
+        "price": "Free",
+        "description": "Smart, reliable, and efficient \u2014 our robots are designed to automate tasks, ",
+        "image": "the-wild-robot-movie-poster-4k-wallpaper-uhdpaper.com-4621o.jpg"
+    },
+    "5": {
+        "type": "general",
+        "title": "Cars",
+        "price": "Free",
+        "description": "this is a best and power full cars ",
+        "image": "wallhaven-jx2e7w.jpg"
+    },
+    "6": {
+        "type": "coding_project",
+        "title": "Flask Project",
+        "price": "Free",
+        "description": "Flask project is a website those sell tech services",
+        "image": "wallpaperflare.com_wallpaper_1.jpg",
+        "github_link": "https://github.com/gaganrai-github/Project-Flask",
+        "tech_stack": [
+            "Flask",
+            "Python",
+            "Html"
+        ],
+        "live_demo_link": "http://127.0.0.1:5000/"
     }
 }

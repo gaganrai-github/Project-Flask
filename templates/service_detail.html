@@ -11,15 +11,23 @@
     }
 
     .service-detail-card {
-        background-color: #2d3748; /* Darker card background */
+        /* Enhanced background with a subtle gradient and transparency for blending */
+        background-color: rgba(22, 33, 62, 0.7); /* A slightly transparent secondary-dark */
         border-radius: 1.25rem; /* More rounded corners */
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper, softer shadow */
+        /* Enhanced box-shadow for a flatter look with subtle inner glow */
+        box-shadow: 
+            0 4px 10px rgba(0, 0, 0, 0.3), /* Soft outer shadow */
+            inset 0 0 5px rgba(255, 255, 255, 0.03); /* Very subtle inner glow */
         color: #e2e8f0; /* Light text color */
-        transition: transform 0.3s ease-out; /* Smooth transition for card hover */
+        transition: box-shadow 0.3s ease-out, transform 0.3s ease-out; /* Smooth transition for card hover */
     }
 
     .service-detail-card:hover {
-        transform: translateY(-5px); /* Slight lift on hover */
+        /* Removed transform for lift effect, adjusted shadow for subtle hover */
+        transform: translateY(-3px); /* Subtle lift on hover */
+        box-shadow: 
+            0 8px 18px rgba(0, 0, 0, 0.4), /* Slightly more pronounced outer shadow on hover */
+            inset 0 0 8px rgba(255, 255, 255, 0.05); /* Slightly brighter inner glow on hover */
     }
 
     .service-detail-image {
@@ -54,29 +62,72 @@
         letter-spacing: 0.05em; /* Slight letter spacing for impact */
     }
 
+    /* --- START Buy Now Button Specific Styles --- */
     .buy-button {
-        background: linear-gradient(to right, #667eea, #764ba2); /* Gradient background for Buy button */
+        background: linear-gradient(45deg, #0a2759, #051943); /* Adjusted to match page background */
         color: white;
-        padding: 1rem 2.5rem;
+        padding: 0.8rem 2rem; /* Reduced padding for smaller size */
         border-radius: 9999px; /* Pill shape */
-        font-weight: 700;
-        font-size: 1.25rem;
-        transition: all 0.3s ease-in-out;
+        font-weight: 700; /* Slightly less bold */
+        font-size: 1.15rem; /* Reduced font size */
+        text-transform: uppercase; /* Uppercase text */
+        letter-spacing: 0.05em; /* Reduced letter spacing */
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
         text-decoration: none;
         display: inline-flex;
         align-items: center;
+        justify-content: center; /* Center content */
         gap: 0.75rem; /* Space between text and icon */
         border: none;
         cursor: pointer;
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); /* Shadow for button */
+        /* Key for 3D effect: multiple shadows for depth and inner highlight */
+        box-shadow: 
+            0 6px 12px rgba(26, 32, 44, 0.5), /* Main shadow, adjusted color */
+            0 10px 20px rgba(26, 32, 44, 0.3), /* Deeper shadow, adjusted color */
+            inset 0 2px 5px rgba(255, 255, 255, 0.1), /* Inner highlight for convex look */
+            inset 0 -2px 5px rgba(0, 0, 0, 0.2); /* Inner shadow for concavity */
+        position: relative;
+        overflow: hidden; /* For pseudo-elements */
+        z-index: 1;
+    }
+
+    .buy-button:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+        z-index: -1;
     }
 
     .buy-button:hover {
-        transform: translateY(-3px); /* Lift effect */
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6); /* Enhanced shadow on hover */
-        background: linear-gradient(to right, #764ba2, #667eea); /* Reverse gradient on hover */
+        transform: translateY(-4px) scale(1.01); /* Slightly less pronounced lift and scale on hover */
+        /* Enhanced shadow on hover for more depth */
+        box-shadow: 
+            0 9px 18px rgba(26, 32, 44, 0.7), /* Stronger main shadow, adjusted color */
+            0 15px 30px rgba(26, 32, 44, 0.5), /* Even deeper shadow, adjusted color */
+            inset 0 3px 8px rgba(255, 255, 255, 0.2), /* Brighter inner highlight */
+            inset 0 -3px 8px rgba(0, 0, 0, 0.3); /* Deeper inner shadow */
+        background: linear-gradient(45deg, #1a202c, #2d3748); /* Reverse gradient on hover */
         color: white; /* Ensure text remains white */
     }
+
+    .buy-button:hover:before {
+        left: 100%; /* Swipe effect */
+    }
+
+    .buy-button:active {
+        transform: translateY(-1px) scale(0.98); /* Press down effect, less lift */
+        box-shadow: 
+            0 2px 5px rgba(26, 32, 44, 0.3), /* Softer main shadow on active, adjusted color */
+            0 4px 10px rgba(26, 32, 44, 0.2),
+            inset 0 1px 3px rgba(0, 0, 0, 0.2), /* Inner shadow for pressed look */
+            inset 0 -1px 3px rgba(255, 255, 255, 0.1); /* Subtle inner highlight */
+    }
+    /* --- END Buy Now Button Specific Styles --- */
 
     .back-button {
         background-color: #4a5568; /* Dark gray button */

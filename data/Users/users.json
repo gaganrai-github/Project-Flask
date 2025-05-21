@@ -1,7 +1,7 @@
 {
-    "1": {
-        "username": "Gagan Rai",
-        "email": "gaganrai907@gmail.com",
-        "password": "scrypt:32768:8:1$RMa6bN91M4khtFjF$71e30ce5b6631d80d1ecebf8cf72b15127b393c8c1a9df6c6e853c3f95e24e81c4097bf287b528e54ff8c40bd7fdf1a0c9f845893aa890daeea648e941ca58c3"
+    "2": {
+        "username": "Gagan",
+        "email": "gaganrai8907@gmail.com",
+        "password": "scrypt:32768:8:1$7TED8n62f8gZajsl$18af0aa6ff1ddf34ba406a8898968d05059ebaebbee58fee4f37d6458112818a17e4a7bb657a2a9b97b69119dc260848f91b5aa776c8c1cfec3065df2b869a2f"
     }
 }

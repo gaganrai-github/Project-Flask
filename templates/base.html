@@ -7,7 +7,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCXd/XPqjK/8J6Dkrj/UXpLwoNdRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCXd/XPqjK/8J6Dkrj/UXpLwoNdRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -65,12 +65,29 @@
         body {
             perspective: 1200px;
             overflow-x: hidden; /* Prevent horizontal scrollbar from layout shifts */
-            background: linear-gradient(135deg, var(--tw-gradient-stops)); /* Uses Tailwind's background gradient */
-            background-size: 200% 200%; /* For pan-background animation */
-            animation: pan-background 20s linear infinite alternate;
+            /* Using Tailwind's default background gradient classes in body tag directly */
+            /* Ensure these classes are defined in your HTML, e.g., class="bg-gradient-to-br from-primary-dark to-secondary-dark" */
+        }
+
+        /* Custom scrollbar (optional, but good for dark themes) */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A1A2E; /* primary-dark */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #663399; /* accent-purple */
+            border-radius: 10px;
+            border: 3px solid #1A1A2E; /* primary-dark */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00FF00; /* neon-green */
         }
 
         /* Direct CSS for gradients and custom styles not easily achieved with CDN */
+        /* These colors and shadows should ideally be defined in a tailwind.config.js if you have a build process.
+           For CDN, they are defined directly here or as custom classes in HTML. */
         .header-bg {
             background: linear-gradient(to right, #1A1A2E, #0F3460); /* primary-dark to accent-light-blue */
         }
@@ -190,22 +207,138 @@
             transition: background-color 0.2s;
         }
 
-        /* Scrollbar (optional, but good for dark themes) */
-        ::-webkit-scrollbar {
-            width: 12px;
+        /* --- START Buy Now Button Specific Styles (Moved from service_detail.html) --- */
+        .buy-button {
+            background: linear-gradient(45deg, #FF6B6B, #FFD166); /* Vibrant orange-yellow gradient */
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px; /* Pill shape */
+            font-weight: 800; /* Extra bold */
+            font-size: 1.35rem; /* Slightly larger font */
+            text-transform: uppercase; /* Uppercase text */
+            letter-spacing: 0.08em; /* More letter spacing */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center; /* Center content */
+            gap: 0.75rem; /* Space between text and icon */
+            border: none;
+            cursor: pointer;
+            /* Key for 3D effect: multiple shadows for depth and inner highlight */
+            box-shadow: 
+                0 8px 15px rgba(255, 107, 107, 0.5), /* Main shadow, slightly larger */
+                0 15px 30px rgba(255, 107, 107, 0.3), /* Deeper shadow for more lift */
+                inset 0 3px 7px rgba(255, 255, 255, 0.3), /* Inner highlight for convex look */
+                inset 0 -3px 7px rgba(0, 0, 0, 0.1); /* Inner shadow for concavity */
+            position: relative;
+            overflow: hidden; /* For pseudo-elements */
+            z-index: 1;
         }
-        ::-webkit-scrollbar-track {
-            background: #1A1A2E; /* primary-dark */
+
+        .buy-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: -1;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #663399; /* accent-purple */
-            border-radius: 10px;
-            border: 3px solid #1A1A2E; /* primary-dark */
+
+        .buy-button:hover {
+            transform: translateY(-7px) scale(1.03); /* More pronounced lift and slight scale on hover */
+            /* Enhanced shadow on hover for more depth */
+            box-shadow: 
+                0 12px 25px rgba(255, 107, 107, 0.7), /* Stronger main shadow */
+                0 20px 40px rgba(255, 107, 107, 0.5), /* Even deeper shadow */
+                inset 0 3px 10px rgba(255, 255, 255, 0.4), /* Brighter inner highlight */
+                inset 0 -3px 10px rgba(0, 0, 0, 0.2); /* Deeper inner shadow */
+            background: linear-gradient(45deg, #FFD166, #FF6B6B); /* Reverse gradient on hover */
+            color: white; /* Ensure text remains white */
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00FF00; /* neon-green */
+
+        .buy-button:hover:before {
+            left: 100%; /* Swipe effect */
+        }
+
+        .buy-button:active {
+            transform: translateY(-1px) scale(0.97); /* Press down effect, less lift */
+            box-shadow: 
+                0 2px 5px rgba(255, 107, 107, 0.3), /* Softer main shadow on active */
+                0 4px 10px rgba(255, 107, 107, 0.2),
+                inset 0 1px 3px rgba(0, 0, 0, 0.2), /* Inner shadow for pressed look */
+                inset 0 -1px 3px rgba(255, 255, 255, 0.1); /* Subtle inner highlight */
+        }
+        /* --- END Buy Now Button Specific Styles --- */
+
+        /* Styles specific to service_detail.html that were previously global or in its own <style> block */
+        .service-detail-card {
+            background-color: #2d3748; /* Darker card background */
+            border-radius: 1.25rem; /* More rounded corners */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper, softer shadow */
+            color: #e2e8f0; /* Light text color */
+            transition: transform 0.3s ease-out; /* Smooth transition for card hover */
+        }
+
+        .service-detail-card:hover {
+            transform: translateY(-5px); /* Slight lift on hover */
+        }
+
+        .service-detail-image {
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            height: 380px; /* Taller image for impact */
+            object-fit: cover;
+            width: 100%;
+            filter: brightness(0.7); /* Darken image slightly */
+            transition: filter 0.3s ease-in-out;
+        }
+
+        .service-detail-image:hover {
+            filter: brightness(0.9); /* Brighten image on hover */
+        }
+
+        .detail-link {
+            color: #63b3ed; /* A nice blue for links */
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+            text-decoration: none; /* Remove default underline */
+        }
+
+        .detail-link:hover {
+            color: #90cdf4; /* Lighter blue on hover */
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        .price-text {
+            color: #48bb78; /* Green for price */
+            font-weight: 700; /* Bold */
+            font-size: 2rem; /* Larger font size */
+            letter-spacing: 0.05em; /* Slight letter spacing for impact */
+        }
+
+        .back-button {
+            background-color: #4a5568; /* Dark gray button */
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748; /* Darker gray on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+            color: white; /* Ensure text remains white */
         }
     </style>
+    {% block head_content %}{% endblock %} {# This block is for page-specific styles or meta tags #}
 </head>
 
 <body class="flex flex-col min-h-screen font-sans text-text-light bg-gradient-to-br from-primary-dark to-secondary-dark">
@@ -213,7 +346,7 @@
     <header class="header-bg text-text-light py-6 text-center shadow-header-glow sticky top-0 z-50 overflow-hidden">
         <div class="relative z-10 max-w-6xl mx-auto px-6">
             <h1 class="text-4xl md:text-6xl font-display font-bold mb-4 animate-fade-in-up drop-shadow-lg">
-                <span class="text-neon-green">SYNAPSE</span> Nexus <span class="text-neon-blue">HUB</span>
+                <span class="text-neon-green">GAGAN</span> Tech <span class="text-neon-blue">HUB</span>
             </h1>
             <div class="glass-navbar inline-block rounded-3xl px-8 py-4 shadow-xl
                         backdrop-filter backdrop-blur-xl bg-white bg-opacity-5 border border-white border-opacity-10
@@ -324,7 +457,7 @@
         </div>
 
         <div class="border-t border-secondary-dark mt-10 pt-6 text-center text-gray-500">
-            <p>&copy; 2025 <span class="text-neon-green font-semibold">SYNAPSE</span> Nexus. All rights reserved. Crafted with <i class="fas fa-heart text-red-500 animate-pulse-glow"></i> in Flask.</p>
+            <p>&copy; 2025 <span class="text-neon-green font-semibold">GAGAN</span> Tech HUB. All rights reserved. Crafted with <i class="fas fa-heart text-red-500 animate-pulse-glow"></i> in Flask.</p>
         </div>
     </footer>
 
